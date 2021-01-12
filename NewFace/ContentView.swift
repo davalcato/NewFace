@@ -18,3 +18,28 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+struct Home : View {
+    
+    @State var userName = ""
+    @State var password = ""
+    
+    // When first time user logged in via email store this for future biometric login..
+    @AppStorage("stored_User") var user = "STORED_EMAIL_ID"
+    @AppStorage("status") var logged = false
+    
+    var body: some View{
+        
+        
+        VStack{
+            
+            Spacer(minLength: 0)
+            
+            Image("Logo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        }
+    }
+    
+    
+}
