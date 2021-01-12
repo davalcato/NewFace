@@ -6,16 +6,17 @@
 //
 
 import SwiftUI
+import LocalAuthentication
 
 struct Login : View {
     
     @StateObject var LoginModel = LoginViewModel()
     // When first time user logged in via email store this for future biometric login..
-    @AppStorage("stored_User") var user = "STORED_EMAIL_ID"
+    @AppStorage("stored_User") var Stored_User = ""
+    @AppStorage("stored_Password") var Stored_Password = ""
     @AppStorage("status") var logged = false
     
     var body: some View{
-        
         
         VStack{
             
@@ -92,9 +93,9 @@ struct Login : View {
                 .opacity(LoginModel.email != "" && LoginModel.password != "" ? 1 : 0.05)
                 .disabled(LoginModel.email != "" && LoginModel.password != "" ? false : true)
                 
-                if getBioMetricStatus(){
+                if LoginModel.getBioMetricStatus(){
                     
-                    Button(action: authenticateUser, label: {
+                    Button(action: LoginModel.authenticateUser, label: {
                         
                         // Getting biometrictype...
                         Image(systemName: LAContext().biometryType == .faceID ? "faceid" : "touchid")
@@ -121,10 +122,18 @@ struct Login : View {
             
             HStack(spacing: 5){
                 
-                Text("Don't have an account")
+                Text("Don't have an account?")
+                    .foregroundColor(Color.white.opacity(0.6))
                 
+                Button(action: {}, label: {
+                    Text("SignUp")
+                        .fontWeight(.heavy)
+                })
             }
+            .padding(.vertical)
         }
+        .background(Color("bg").ignoresSafeArea(.all, edges: .all))
+        .animation(.easeOut)
     }
     
 }
